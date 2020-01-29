@@ -6,9 +6,9 @@
 typedef enum{
 	IF_TOKEN,ELSE_TOKEN,WHILE_TOKEN,REPEAT_TOKEN,FOR_TOKEN,WRITE_TOKEN,CAT_TOKEN,IN_TOKEN,BREAK_TOKEN,IS_TOKEN,AS_TOKEN,
 	CLS_TOKEN,PV_TOKEN,PT_TOKEN,PLUS_TOKEN,
-	MOINS_TOKEN,MULT_TOKEN,DIV_TOKEN,VIR_TOKEN,AFFOP1_TOKEN,AFFOP2_TOKEN,
+	MOINS_TOKEN,MULT_TOKEN,DIV_TOKEN,VIR_TOKEN,AFFOP_TOKEN,AFFOP1_TOKEN,AFFOP2_TOKEN,
 	INF_TOKEN,INFG_TOKEN,SUP_TOKEN,SUPG_TOKEN,EGAL_TOKEN,DIFF_TOKEN,
-	PO_TOKEN,PF_TOKEN,ID_TOKEN,NUM_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,EOF_TOKEN
+	PO_TOKEN,PF_TOKEN,ID_TOKEN,NUM_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,READ_TOKEN,EOF_TOKEN
 }CODE_LEX;
 
 
@@ -52,8 +52,8 @@ int main(){
 	Sym_Suiv();
 	AfficherToken(SYM_COUR);
 	return 1;
-}
-*/
+}*/
+
 void Sym_Suiv(){
 	while(CaractereVide(Car_Cour)){
 		Lire_Car();
@@ -125,8 +125,8 @@ void Sym_Suiv(){
 				Lire_Car();
 				break;
 			case '=': 
-				SYM_COUR.CODE=AFF_TOKEN;
-				strcpy(SYM_COUR.nom,"AFF_TOKEN");
+				SYM_COUR.CODE=AFFOP_TOKEN;
+				strcpy(SYM_COUR.nom,"AFFOP_TOKEN");
 				Lire_Car();
 				if(Car_Cour=='=') {
 					SYM_COUR.CODE=EGAL_TOKEN;
@@ -306,7 +306,7 @@ void Lire_Nombre(){
 	while(Car_Cour>='0' && Car_Cour<='9'){
 		Lire_Car();
 	}
-	if(CaractereVide(Car_Cour) || CaractereSigne(Car_Cour) || Car_Cour==')' || Car_Cour==':'){
+	if(CaractereVide(Car_Cour) || CaractereSigne(Car_Cour) || Car_Cour=='\n' || Car_Cour==')' || Car_Cour==':'){
 		SYM_COUR.CODE = NUM_TOKEN;
 		strcpy(SYM_COUR.nom,"NUM_TOKEN");
 	}else{

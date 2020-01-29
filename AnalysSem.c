@@ -11,7 +11,7 @@ typedef enum{
 	CLS_ERR,PV_ERR,PT_ERR,PLUS_ERR,
 	MOINS_ERR,MULT_ERR,DIV_ERR,VIR_ERR,AFF_ERR,
 	INF_ERR,INFG_ERR,SUP_ERR,SUPG_ERR,EGAL_ERR,DIFF_ERR,
-	PO_ERR,PF_ERR,ID_ERR,NUM_ERR,ERREUR_ERR,COMM_ERR,AND_ERR,OR_ERR,NOT_ERR,RES_ERR,DIVENT_ERR,POW_ERR,ACCO_ERR,ACCF_ERR,SEQ_ERR,ENTRER_ERR,EOF_ERR
+	PO_ERR,PF_ERR,ID_ERR,NUM_ERR,ERREUR_ERR,COMM_ERR,AND_ERR,OR_ERR,NOT_ERR,RES_ERR,DIVENT_ERR,POW_ERR,ACCO_ERR,ACCF_ERR,SEQ_ERR,ENTRER_ERR,READ_ERR,EOF_ERR
 
 }CODE_ERR;
 
@@ -71,7 +71,7 @@ void EXPR();
 void TERM();
 void FACT();
 void POUR();
-void REPEAT();
+void REPETER();
 void FOR();
 void PREMIER_SYM();
 int CHERCHER_SYM(char* nom,OPTION option);
@@ -79,12 +79,12 @@ void AJOUTER_SYM(char* nom,TSYM type);
 
 
 //traitement 
-/*
+
 int main(){
-	Ouvrir_Fichier("Pascal.p");
+	Ouvrir_Fichier("code.txt");
 	PREMIER_SYM();
 	
-	PROGRAM();
+	INSTS();
 	
 	if(SYM_COUR.CODE==EOF_TOKEN)
 		printf("BRAVO: le programme est correcte!!!");
@@ -93,7 +93,7 @@ int main(){
 	
 	return 1;
 }
-*/
+
 
 //Définition des fonctions
 
@@ -109,29 +109,41 @@ void Test_Symbole(CODE_LEX code,CODE_ERR error){
 
 void ERREUR(CODE_ERR error){
 	switch(error){
-		case PROGRAM_ERR:
-			printf("PROGRAM_ERR\n");
-			break;
-		case CONST_ERR:
-			printf("const_err\n");
-			break;
-		case VAR_ERR:
-			printf("var_err\n");
-			break;
-		case BEGIN_ERR:
-			printf("BEGIN_ERR\n");
-			break;
-		case END_ERR:
-			printf("END_ERR\n");
-			break;
 		case IF_ERR:
 			printf("IF_ERR\n");
 			break;
-		case ID_ERR:
-			printf("ID_ERR\n");
+		case ELSE_ERR:
+			printf("ELSE_ERR\n");
 			break;
-		case PF_ERR:
-			printf("PF_ERR\n");
+		case WHILE_ERR:
+			printf("WHILE_ERR\n");
+			break;
+		case REPEAT_ERR:
+			printf("REPEAT_ERR\n");
+			break;
+		case FOR_ERR:
+			printf("FOR_ERR\n");
+			break;
+		case WRITE_ERR:
+			printf("WRITE_ERR\n");
+			break;
+		case CAT_ERR:
+			printf("CAT_ERR\n");
+			break;
+		case IN_ERR:
+			printf("IN_ERR\n");
+			break;
+		case BREAK_ERR:
+			printf("BREAK_ERR\n");
+			break;
+		case IS_ERR:
+			printf("IS_ERR\n");
+			break;
+		case AS_ERR:
+			printf("AS_ERR\n");
+			break;
+		case CLS_ERR:
+			printf("CLS_ERR\n");
 			break;
 		case PV_ERR:
 			printf("PV_ERR\n");
@@ -142,50 +154,11 @@ void ERREUR(CODE_ERR error){
 		case PLUS_ERR:
 			printf("PLUS_ERR\n");
 			break;
-		case PO_ERR:
-			printf("PO_ERR\n");
-			break;
-		case EGAL_ERR:
-			printf("EGAL_ERR\n");
-			break;
-		case AFF_ERR:
-			printf("AFF_ERR\n");
-			break;
-		case SUP_ERR:
-			printf("SUP_ERR\n");
-			break;
-		case SUPG_ERR:
-			printf("SUPG_ERR\n");
-			break;
-		case INF_ERR:
-			printf("INF_ERR\n");
-			break;
-		case INFG_ERR:
-			printf("INFG_ERR\n");
-			break;
-		case DIFF_ERR:
-			printf("DIFF_ERR\n");
-			break;
 		case MOINS_ERR:
 			printf("MOINS_ERR\n");
 			break;
 		case MULT_ERR:
 			printf("MULT_ERR\n");
-			break;
-		case WRITE_ERR:
-			printf("WRITE_ERR\n");
-			break;
-		case WHILE_ERR:
-			printf("WHILE_ERR\n");
-			break;
-		case THEN_ERR:
-			printf("THEN_ERR\n");
-			break;
-		case READ_ERR:
-			printf("READ_ERR\n");
-			break;
-		case DO_ERR:
-			printf("DO_ERR\n");
 			break;
 		case DIV_ERR:
 			printf("DIV_ERR\n");
@@ -193,12 +166,81 @@ void ERREUR(CODE_ERR error){
 		case VIR_ERR:
 			printf("VIR_ERR\n");
 			break;
+		case AFF_ERR:
+			printf("AFF_ERR\n");
+			break;
+		case INF_ERR:
+			printf("INF_ERR\n");
+			break;
+		case INFG_ERR:
+			printf("INFG_ERR\n");
+			break;
+		case SUP_ERR:
+			printf("SUP_ERR\n");
+			break;
+		case SUPG_ERR:
+			printf("SUPG_ERR\n");
+			break;
+		case EGAL_ERR:
+			printf("EGAL_ERR\n");
+			break;
+		case DIFF_ERR:
+			printf("DIFF_ERR\n");
+			break;
+		case PO_ERR:
+			printf("PO_ERR\n");
+			break;
+		case PF_ERR:
+			printf("PF_ERR\n");
+			break;
+		case ID_ERR:
+			printf("ID_ERR\n");
+			break;
+		case NUM_ERR:
+			printf("NUM_ERR\n");
+			break;
+		case ERREUR_ERR:
+			printf("ERREUR_ERR\n");
+			break;
+		case COMM_ERR:
+			printf("COMM_ERR\n");
+			break;
+		case AND_ERR:
+			printf("AND_ERR\n");
+			break;
+		case OR_ERR:
+			printf("OR_ERR\n");
+			break;
+		case NOT_ERR:
+			printf("NOT_ERR\n");
+			break;
+		case RES_ERR:
+			printf("RES_ERR\n");
+			break;
+		case DIVENT_ERR:
+			printf("DIVENT_ERR\n");
+			break;
+		case POW_ERR:
+			printf("POW_ERR\n");
+			break;
+		case ACCO_ERR:
+			printf("ACCO_ERR\n");
+			break;
+		case ACCF_ERR:
+			printf("ACCF_ERR\n");
+			break;
+		case SEQ_ERR:
+			printf("SEQ_ERR\n");
+			break;
+		case EOF_ERR:
+			printf("EOF_ERR\n");
+			break;
 		default:
 			printf("ERREUR\n");
 		
 	}
 	SYM_COUR.CODE==ERREUR_TOKEN;
-	exit(0);
+	//exit(0);
 }
 
 /*void PROGRAM(){
@@ -264,17 +306,17 @@ void VARS(){
 */
 void INSTS(){
 	INST();
-	while(SYM_COUR.CODE==PV_TOKEN||SYM_COUR.CODE==ENTRER_TOKEN){
+	while(SYM_COUR.CODE==PV_TOKEN||SYM_COUR.CODE==ENTRER_TOKEN || SYM_COUR.CODE==COMM_TOKEN){
 		Sym_Suiv();
 		INST();
 	}
-	Test_Symbole(EOF_TOKEN,EOF_ERR);
+	//Test_Symbole(EOF_TOKEN,EOF_ERR);
 }
 
 void INST(){
 	switch(SYM_COUR.CODE){
 		case ID_TOKEN:
-			AFFEC();
+			AFFEC1();
 			break;
 		case NUM_TOKEN:
 			AFFEC2();
@@ -300,6 +342,14 @@ void INST(){
 		case READ_TOKEN:
 			LIRE();
 			break;
+		case ENTRER_TOKEN:
+			break;
+		case COMM_TOKEN:
+			break;
+		case PV_TOKEN:
+			break;
+		case ACCF_TOKEN:
+			break;
 		default:
 			ERREUR(ERREUR_ERR);
 	}
@@ -307,14 +357,26 @@ void INST(){
 
 void AFFEC1(){
 	//CHERCHER_SYM(SYM_COUR.nom,OAFFEC);
+
 	Sym_Suiv();
-	Test_Symbole(AFF_TOKEN,AFF_ERR);
-	EXPR();
+	if(SYM_COUR.CODE==AFFOP1_TOKEN){
+		Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
+		Test_Symbole(ID_TOKEN,ID_ERR);
+	}else if(SYM_COUR.CODE==AFFOP_TOKEN){
+		Test_Symbole(AFFOP_TOKEN,AFF_ERR);
+		if(SYM_COUR.CODE==ID_TOKEN || SYM_COUR.CODE==NUM_TOKEN) Sym_Suiv();
+		else Test_Symbole(AFFOP_TOKEN,AFF_ERR);
+		
+	}else{
+		Test_Symbole(AFFOP2_TOKEN,AFF_ERR);
+		EXPR();
+	}
+
 }
 
 void AFFEC2(){
 	EXPR();
-	Test_Symbole(AFF_TOKEN,AFF_ERR);
+	Test_Symbole(AFFOP2_TOKEN,AFF_ERR);
 	Test_Symbole(ID_TOKEN,ID_ERR);
 }
 
@@ -325,6 +387,8 @@ void SI(){
 		case ACCO_TOKEN:
 			INSTS();
 			Test_Symbole(ACCF_TOKEN,ACCF_ERR);
+			break;
+		case BREAK_TOKEN: 
 			break;
 		default:
 			INST();
@@ -341,6 +405,8 @@ void SI(){
 					INST();
 					break;
 			}
+			break;
+		case BREAK_TOKEN:
 			break;
 		default:
 			break;
@@ -361,12 +427,12 @@ void TANTQUE(){
 	}
 }
 
-void REPEAT(){
+void REPETER(){
+	Test_Symbole(REPEAT_TOKEN,REPEAT_ERR);
 	Test_Symbole(ACCO_TOKEN,ACCO_ERR);
 	INSTS();
-	Test_Symbole(IF_TOKEN,IF_ERR);
-	COND();
 	Test_Symbole(BREAK_TOKEN,BREAK_ERR);
+	while(SYM_COUR.CODE == ENTRER_TOKEN) Sym_Suiv();
 	Test_Symbole(ACCF_TOKEN,ACCF_ERR);
 }
 
@@ -381,10 +447,12 @@ void POUR(){
 	Test_Symbole(PF_TOKEN,PF_ERR);
 	switch(SYM_COUR.CODE){
 		case ACCO_TOKEN:
+			Test_Symbole(ACCO_TOKEN,ACCO_ERR);
 			INSTS();
 			Test_Symbole(ACCF_TOKEN,ACCF_ERR);
 			break;
 		default:
+			Sym_Suiv();
 			INST();
 			break;
 	}
@@ -528,7 +596,7 @@ void AJOUTER_SYM(char* nom,TSYM type){
 	}
 }
 
-void GENERER1(MNEMONIQUES MNE){
+/*void GENERER1(MNEMONIQUES MNE){
 	if(pc == TAILLECODE){
 		ERREUR("erreur");
 		exit(0);
@@ -545,7 +613,7 @@ void GENERER2(MNEMONIQUES MNE,int A){
 	pc++;
 	PCODE[pc].MNE = MNE;
 	PCODE[pc].SUITE = A;
-}
+}*/
 
 
 
