@@ -46,6 +46,7 @@ typedef struct{
 }INSTRUCTION;
 
 //declaration 
+int progValide = 1;
 T_Table_Symbole Table_Symbole[NbrIDF];
 TSym_Cour SYM_PREC;
 INSTRUCTION PCODE[TAILLECODE];
@@ -81,16 +82,15 @@ void AJOUTER_SYM(char* nom,TSYM type);
 //traitement 
 
 int main(){
-	Ouvrir_Fichier("code.txt");
+	Ouvrir_Fichier("test1.R");
 	PREMIER_SYM();
 	
 	INSTS();
 	
-	if(SYM_COUR.CODE==EOF_TOKEN)
-		printf("BRAVO: le programme est correcte!!!");
+	if(SYM_COUR.CODE==EOF_TOKEN && progValide == 1)
+		printf("BRAVO: le programme est correcte!!! test");
 	else
-		printf("PAS BRAVO: fin de programme erronee!!!!");
-	
+		printf("PAS BRAVO: fin de programme erronee!!!! test");
 	return 1;
 }
 
@@ -110,130 +110,130 @@ void Test_Symbole(CODE_LEX code,CODE_ERR error){
 void ERREUR(CODE_ERR error){
 	switch(error){
 		case IF_ERR:
-			printf("IF_ERR\n");
+			printf("IF_ERR\n"); progValide = 0;
 			break;
 		case ELSE_ERR:
-			printf("ELSE_ERR\n");
+			printf("ELSE_ERR\n"); progValide = 0;
 			break;
 		case WHILE_ERR:
-			printf("WHILE_ERR\n");
+			printf("WHILE_ERR\n"); progValide = 0;
 			break;
 		case REPEAT_ERR:
-			printf("REPEAT_ERR\n");
+			printf("REPEAT_ERR\n"); progValide = 0;
 			break;
 		case FOR_ERR:
-			printf("FOR_ERR\n");
+			printf("FOR_ERR\n"); progValide = 0;
 			break;
 		case WRITE_ERR:
-			printf("WRITE_ERR\n");
+			printf("WRITE_ERR\n"); progValide = 0;
 			break;
 		case CAT_ERR:
-			printf("CAT_ERR\n");
+			printf("CAT_ERR\n"); progValide = 0;
 			break;
 		case IN_ERR:
-			printf("IN_ERR\n");
+			printf("IN_ERR\n"); progValide = 0;
 			break;
 		case BREAK_ERR:
-			printf("BREAK_ERR\n");
+			printf("BREAK_ERR\n"); progValide = 0;
 			break;
 		case IS_ERR:
-			printf("IS_ERR\n");
+			printf("IS_ERR\n"); progValide = 0;
 			break;
 		case AS_ERR:
-			printf("AS_ERR\n");
+			printf("AS_ERR\n"); progValide = 0;
 			break;
 		case CLS_ERR:
-			printf("CLS_ERR\n");
+			printf("CLS_ERR\n"); progValide = 0;
 			break;
 		case PV_ERR:
-			printf("PV_ERR\n");
+			printf("PV_ERR\n"); progValide = 0;
 			break;
 		case PT_ERR:
-			printf("PT_ERR\n");
+			printf("PT_ERR\n"); progValide = 0;
 			break;
 		case PLUS_ERR:
-			printf("PLUS_ERR\n");
+			printf("PLUS_ERR\n"); progValide = 0;
 			break;
 		case MOINS_ERR:
-			printf("MOINS_ERR\n");
+			printf("MOINS_ERR\n"); progValide = 0;
 			break;
 		case MULT_ERR:
-			printf("MULT_ERR\n");
+			printf("MULT_ERR\n"); progValide = 0;
 			break;
 		case DIV_ERR:
-			printf("DIV_ERR\n");
+			printf("DIV_ERR\n"); progValide = 0;
 			break;
 		case VIR_ERR:
-			printf("VIR_ERR\n");
+			printf("VIR_ERR\n"); progValide = 0;
 			break;
 		case AFF_ERR:
-			printf("AFF_ERR\n");
+			printf("AFF_ERR\n"); progValide = 0;
 			break;
 		case INF_ERR:
-			printf("INF_ERR\n");
+			printf("INF_ERR\n"); progValide = 0;
 			break;
 		case INFG_ERR:
-			printf("INFG_ERR\n");
+			printf("INFG_ERR\n"); progValide = 0;
 			break;
 		case SUP_ERR:
-			printf("SUP_ERR\n");
+			printf("SUP_ERR\n"); progValide = 0;
 			break;
 		case SUPG_ERR:
-			printf("SUPG_ERR\n");
+			printf("SUPG_ERR\n"); progValide = 0;
 			break;
 		case EGAL_ERR:
-			printf("EGAL_ERR\n");
+			printf("EGAL_ERR\n"); progValide = 0;
 			break;
 		case DIFF_ERR:
-			printf("DIFF_ERR\n");
+			printf("DIFF_ERR\n"); progValide = 0;
 			break;
 		case PO_ERR:
-			printf("PO_ERR\n");
+			printf("PO_ERR\n"); progValide = 0;
 			break;
 		case PF_ERR:
-			printf("PF_ERR\n");
+			printf("PF_ERR\n"); progValide = 0;
 			break;
 		case ID_ERR:
-			printf("ID_ERR\n");
+			printf("ID_ERR\n"); progValide = 0;
 			break;
 		case NUM_ERR:
-			printf("NUM_ERR\n");
+			printf("NUM_ERR\n"); progValide = 0;
 			break;
 		case ERREUR_ERR:
-			printf("ERREUR_ERR\n");
+			printf("ERREUR_ERR\n"); progValide = 0;
 			break;
 		case COMM_ERR:
-			printf("COMM_ERR\n");
+			printf("COMM_ERR\n"); progValide = 0;
 			break;
 		case AND_ERR:
-			printf("AND_ERR\n");
+			printf("AND_ERR\n"); progValide = 0;
 			break;
 		case OR_ERR:
-			printf("OR_ERR\n");
+			printf("OR_ERR\n"); progValide = 0;
 			break;
 		case NOT_ERR:
-			printf("NOT_ERR\n");
+			printf("NOT_ERR\n"); progValide = 0;
 			break;
 		case RES_ERR:
-			printf("RES_ERR\n");
+			printf("RES_ERR\n"); progValide = 0;
 			break;
 		case DIVENT_ERR:
-			printf("DIVENT_ERR\n");
+			printf("DIVENT_ERR\n"); progValide = 0;
 			break;
 		case POW_ERR:
-			printf("POW_ERR\n");
+			printf("POW_ERR\n"); progValide = 0;
 			break;
 		case ACCO_ERR:
-			printf("ACCO_ERR\n");
+			printf("ACCO_ERR\n"); progValide = 0;
 			break;
 		case ACCF_ERR:
-			printf("ACCF_ERR\n");
+			printf("ACCF_ERR\n"); progValide = 0;
 			break;
 		case SEQ_ERR:
-			printf("SEQ_ERR\n");
+			printf("SEQ_ERR\n"); progValide = 0;
 			break;
 		case EOF_ERR:
-			printf("EOF_ERR\n");
+			printf("EOF_ERR\n"); progValide = 0;
 			break;
 		default:
 			printf("ERREUR\n");
@@ -310,7 +310,6 @@ void INSTS(){
 		Sym_Suiv();
 		INST();
 	}
-	//Test_Symbole(EOF_TOKEN,EOF_ERR);
 }
 
 void INST(){
@@ -350,6 +349,11 @@ void INST(){
 			break;
 		case ACCF_TOKEN:
 			break;
+		case BREAK_TOKEN:
+			Sym_Suiv();
+			break;
+		case EOF_TOKEN:
+			break;
 		default:
 			ERREUR(ERREUR_ERR);
 	}
@@ -383,14 +387,20 @@ void AFFEC2(){
 void SI(){
 	Test_Symbole(IF_TOKEN,IF_ERR);
 	COND();
+	while(SYM_COUR.CODE == ENTRER_TOKEN) Sym_Suiv();
 	switch(SYM_COUR.CODE){
 		case ACCO_TOKEN:
+			Sym_Suiv();
 			INSTS();
 			Test_Symbole(ACCF_TOKEN,ACCF_ERR);
 			break;
 		case BREAK_TOKEN: 
 			break;
+		case ENTRER_TOKEN:
+			Sym_Suiv();
+			break;
 		default:
+			printf("%s*/*/*/*/*/*/",SYM_COUR.nom);
 			INST();
 			break;
 	}
@@ -401,12 +411,18 @@ void SI(){
 					INSTS();
 					Test_Symbole(ACCF_TOKEN,ACCF_ERR);
 					break;
+				case ENTRER_TOKEN:
+					Sym_Suiv();
+					break;
 				default:
 					INST();
 					break;
 			}
 			break;
 		case BREAK_TOKEN:
+			break;
+		case ENTRER_TOKEN:
+			Sym_Suiv();
 			break;
 		default:
 			break;
@@ -428,11 +444,23 @@ void TANTQUE(){
 }
 
 void REPETER(){
+	int acc_break = 0;
 	Test_Symbole(REPEAT_TOKEN,REPEAT_ERR);
 	Test_Symbole(ACCO_TOKEN,ACCO_ERR);
 	INSTS();
+	/*if(SYM_COUR.CODE == ACCO_TOKEN){
+		Sym_Suiv();
+		acc_break=1;
+	}
 	Test_Symbole(BREAK_TOKEN,BREAK_ERR);
 	while(SYM_COUR.CODE == ENTRER_TOKEN) Sym_Suiv();
+	if(SYM_COUR.CODE == PV_TOKEN) Sym_Suiv();
+	while(SYM_COUR.CODE == ENTRER_TOKEN) Sym_Suiv();
+	if(acc_break==1){
+		Test_Symbole(ACCF_TOKEN,ACCF_ERR);
+		acc_break=0;
+	}
+	if(SYM_COUR.CODE!=ACCF_TOKEN) INSTS();*/
 	Test_Symbole(ACCF_TOKEN,ACCF_ERR);
 }
 
@@ -445,6 +473,7 @@ void POUR(){
 	Test_Symbole(SEQ_TOKEN,SEQ_ERR);
 	Test_Symbole(NUM_TOKEN,NUM_ERR);
 	Test_Symbole(PF_TOKEN,PF_ERR);
+	while(SYM_COUR.CODE == ENTRER_TOKEN) Sym_Suiv();
 	switch(SYM_COUR.CODE){
 		case ACCO_TOKEN:
 			Test_Symbole(ACCO_TOKEN,ACCO_ERR);
@@ -452,7 +481,6 @@ void POUR(){
 			Test_Symbole(ACCF_TOKEN,ACCF_ERR);
 			break;
 		default:
-			Sym_Suiv();
 			INST();
 			break;
 	}
