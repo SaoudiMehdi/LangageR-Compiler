@@ -4,7 +4,7 @@
 
 
 typedef enum{
-	IF_TOKEN,ELSE_TOKEN,WHILE_TOKEN,REPEAT_TOKEN,FOR_TOKEN,WRITE_TOKEN,CAT_TOKEN,IN_TOKEN,BREAK_TOKEN,IS_TOKEN,AS_TOKEN,
+	IF_TOKEN,ELSE_TOKEN,WHILE_TOKEN,REPEAT_TOKEN,FOR_TOKEN,WRITE_TOKEN,CAT_TOKEN,MIN_TOKEN,MAX_TOKEN,IN_TOKEN,BREAK_TOKEN,IS_TOKEN,AS_TOKEN,
 	CLS_TOKEN,PV_TOKEN,PT_TOKEN,PLUS_TOKEN,
 	MOINS_TOKEN,MULT_TOKEN,DIV_TOKEN,VIR_TOKEN,AFFOP_TOKEN,AFFOP1_TOKEN,AFFOP2_TOKEN,
 	INF_TOKEN,INFG_TOKEN,SUP_TOKEN,SUPG_TOKEN,EGAL_TOKEN,DIFF_TOKEN,
@@ -20,6 +20,7 @@ typedef struct {
 //Déclaration Variable Globale
 TSym_Cour SYM_COUR;
 char Car_Cour;
+int numLigne = 1;
 FILE* file;
 
 //Déclaration Prototype des méthodes
@@ -37,7 +38,7 @@ int CaractereSigne(char Car_Cour);
 //Fonction main
 /*
 int main(){
-	Ouvrir_Fichier("code.txt");
+	Ouvrir_Fichier("test1.R");
 	if (file == NULL)
     {
         printf("Cannot open file \n");
@@ -184,6 +185,7 @@ void Sym_Suiv(){
 					strcpy(SYM_COUR.nom,"AFFOP2_TOKEN");
 					Lire_Car();
 				}else if(Car_Cour=='<'){
+					Lire_Car();
 					if(Car_Cour=='-'){
 						SYM_COUR.CODE=AFFOP2_TOKEN;
 						strcpy(SYM_COUR.nom,"AFFOP2_TOKEN");
@@ -237,6 +239,7 @@ void Sym_Suiv(){
 				}
 				break;
 			case '\n':
+				numLigne+=1;
 				SYM_COUR.CODE=ENTRER_TOKEN;
 				strcpy(SYM_COUR.nom,"ENTRER_TOKEN");
 				Lire_Car();
@@ -295,6 +298,12 @@ void Lire_Mot(){
 	}else if(!strcmp(mot,"for")){
 		SYM_COUR.CODE=FOR_TOKEN;
 		strcpy(SYM_COUR.nom,"FOR_TOKEN");
+	}else if(!strcmp(mot,"min")){
+		SYM_COUR.CODE=MIN_TOKEN;
+		strcpy(SYM_COUR.nom,"MIN_TOKEN");
+	}else if(!strcmp(mot,"max")){
+		SYM_COUR.CODE=MAX_TOKEN;
+		strcpy(SYM_COUR.nom,"MAX_TOKEN");
 	}else{
 		SYM_COUR.CODE=ID_TOKEN;
 		strcpy(SYM_COUR.nom,"ID_TOKEN");
@@ -306,7 +315,7 @@ void Lire_Nombre(){
 	while(Car_Cour>='0' && Car_Cour<='9'){
 		Lire_Car();
 	}
-	if(CaractereVide(Car_Cour) || CaractereSigne(Car_Cour) || Car_Cour=='\n' || Car_Cour==')' || Car_Cour==':'){
+	if(CaractereVide(Car_Cour) || CaractereSigne(Car_Cour) || Car_Cour == ',' ||Car_Cour=='\n' || Car_Cour==')' || Car_Cour==':'){
 		SYM_COUR.CODE = NUM_TOKEN;
 		strcpy(SYM_COUR.nom,"NUM_TOKEN");
 	}else{
