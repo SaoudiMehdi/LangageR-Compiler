@@ -8,7 +8,7 @@ typedef enum{
 	CLS_TOKEN,PV_TOKEN,PT_TOKEN,PLUS_TOKEN,
 	MOINS_TOKEN,MULT_TOKEN,DIV_TOKEN,VIR_TOKEN,AFFOP_TOKEN,AFFOP1_TOKEN,AFFOP2_TOKEN,
 	INF_TOKEN,INFG_TOKEN,SUP_TOKEN,SUPG_TOKEN,EGAL_TOKEN,DIFF_TOKEN,
-	PO_TOKEN,PF_TOKEN,ID_TOKEN,NUM_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,GUI_TOKEN,READ_TOKEN,EOF_TOKEN
+	PO_TOKEN,PF_TOKEN,ID_TOKEN,NUM_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,CHAINE_TOKEN,READ_TOKEN,EOF_TOKEN
 }CODE_LEX;
 
 
@@ -28,6 +28,7 @@ void Lire_Car();
 void Lire_Mot();
 void Lire_Nombre();
 void Lire_Commentaire();
+void Lire_Chaine();
 void Sym_Suiv();
 void Ouvrir_Fichier(char* fileName);
 void AfficherToken(TSym_Cour sym);
@@ -53,8 +54,8 @@ int main(){
 	Sym_Suiv();
 	AfficherToken(SYM_COUR);
 	return 1;
-}*/
-
+}
+*/
 void Sym_Suiv(){
 	while(CaractereVide(Car_Cour)){
 		Lire_Car();
@@ -65,6 +66,8 @@ void Sym_Suiv(){
 		Lire_Nombre();
 	}else if(Car_Cour=='#'){
 		Lire_Commentaire();
+	}else if(Car_Cour=='"'){
+		Lire_Chaine();
 	}else{
 		switch(Car_Cour){
 			case '+': 
@@ -224,11 +227,6 @@ void Sym_Suiv(){
 				strcpy(SYM_COUR.nom,"SEQ_TOKEN");
 				Lire_Car();
 				break;
-			case '"':
-				SYM_COUR.CODE=GUI_TOKEN;
-				strcpy(SYM_COUR.nom,"GUI_TOKEN");
-				Lire_Car();
-				break;
 			case '!':
 				SYM_COUR.CODE=NOT_TOKEN;
 				strcpy(SYM_COUR.nom,"NOT_TOKEN");
@@ -336,6 +334,15 @@ void Lire_Commentaire(){
 	do{
 		Lire_Car();
 	}while(Car_Cour!='\n');
+}
+
+void Lire_Chaine(){
+	SYM_COUR.CODE = CHAINE_TOKEN;
+	strcpy(SYM_COUR.nom,"CHAINE_TOKEN");
+	do{
+		Lire_Car();
+	}while(Car_Cour!='"');
+	Lire_Car();
 }
 
 void AfficherToken(TSym_Cour sym){

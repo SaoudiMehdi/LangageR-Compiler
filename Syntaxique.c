@@ -11,7 +11,7 @@ typedef enum{
 	CLS_ERR,PV_ERR,PT_ERR,PLUS_ERR,
 	MOINS_ERR,MULT_ERR,DIV_ERR,VIR_ERR,AFF_ERR,
 	INF_ERR,INFG_ERR,SUP_ERR,SUPG_ERR,EGAL_ERR,DIFF_ERR,
-	PO_ERR,PF_ERR,ID_ERR,NUM_ERR,ERREUR_ERR,COMM_ERR,AND_ERR,OR_ERR,NOT_ERR,RES_ERR,DIVENT_ERR,POW_ERR,ACCO_ERR,ACCF_ERR,SEQ_ERR,ENTRER_ERR,READ_ERR,GUI_ERR,EOF_ERR
+	PO_ERR,PF_ERR,ID_ERR,NUM_ERR,ERREUR_ERR,COMM_ERR,AND_ERR,OR_ERR,NOT_ERR,RES_ERR,DIVENT_ERR,POW_ERR,ACCO_ERR,ACCF_ERR,SEQ_ERR,ENTRER_ERR,READ_ERR,CHAINE_ERR,EOF_ERR
 
 }CODE_ERR;
 
@@ -209,8 +209,8 @@ void ERREUR(CODE_ERR error){
 		case MAX_ERR:
 			printf("MAX_ERR at ligne %d\n",numLigne); 
 			break;
-		case GUI_ERR:
-			printf("GUI_ERR at ligne %d\n",numLigne); 
+		case CHAINE_ERR:
+			printf("CHAINE_ERR at ligne %d\n",numLigne); 
 			break;
 		case EOF_ERR:
 			printf("EOF_ERR at ligne %d\n",numLigne); 
@@ -293,11 +293,21 @@ void AFFEC1(){
 		Test_Symbole(ID_TOKEN,ID_ERR);
 	}else if(SYM_COUR.CODE==AFFOP_TOKEN){
 		Test_Symbole(AFFOP_TOKEN,AFF_ERR);
-		if(SYM_COUR.CODE!=READ_TOKEN) EXPR();
+		if(SYM_COUR.CODE!=READ_TOKEN){
+			if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
+			else{
+				Sym_Suiv();
+			}
+		}
 		else LIRE();
 	}else if(SYM_COUR.CODE==AFFOP2_TOKEN){
 		Test_Symbole(AFFOP2_TOKEN,AFF_ERR);
-		if(SYM_COUR.CODE!=READ_TOKEN) EXPR();
+		if(SYM_COUR.CODE!=READ_TOKEN){
+			if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
+			else{
+				Sym_Suiv();
+			}
+		}
 		else LIRE();
 	}else{
 		ECRIRE2();
