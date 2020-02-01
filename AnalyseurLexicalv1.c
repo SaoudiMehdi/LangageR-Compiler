@@ -8,7 +8,7 @@ typedef enum{
 	CLS_TOKEN,PV_TOKEN,PT_TOKEN,PLUS_TOKEN,
 	MOINS_TOKEN,MULT_TOKEN,DIV_TOKEN,VIR_TOKEN,AFFOP_TOKEN,AFFOP1_TOKEN,AFFOP2_TOKEN,
 	INF_TOKEN,INFG_TOKEN,SUP_TOKEN,SUPG_TOKEN,EGAL_TOKEN,DIFF_TOKEN,
-	PO_TOKEN,PF_TOKEN,ID_TOKEN,NUM_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,READ_TOKEN,EOF_TOKEN
+	PO_TOKEN,PF_TOKEN,ID_TOKEN,NUM_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,GUI_TOKEN,READ_TOKEN,EOF_TOKEN
 }CODE_LEX;
 
 
@@ -81,10 +81,6 @@ void Sym_Suiv(){
 					strcpy(SYM_COUR.nom,"AFFOP1_TOKEN");
 					Lire_Car();
 					if(Car_Cour=='>') {
-						Lire_Car();
-					}else{
-						SYM_COUR.CODE=ERREUR_TOKEN;
-						strcpy(SYM_COUR.nom,"ERREUR_TOKEN");
 						Lire_Car();
 					}
 				}
@@ -228,6 +224,11 @@ void Sym_Suiv(){
 				strcpy(SYM_COUR.nom,"SEQ_TOKEN");
 				Lire_Car();
 				break;
+			case '"':
+				SYM_COUR.CODE=GUI_TOKEN;
+				strcpy(SYM_COUR.nom,"GUI_TOKEN");
+				Lire_Car();
+				break;
 			case '!':
 				SYM_COUR.CODE=NOT_TOKEN;
 				strcpy(SYM_COUR.nom,"NOT_TOKEN");
@@ -289,6 +290,9 @@ void Lire_Mot(){
 	}else if(!strcmp(mot,"break")){
 		SYM_COUR.CODE=BREAK_TOKEN;
 		strcpy(SYM_COUR.nom,"BREAK_TOKEN");
+	}else if(!strcmp(mot,"scan")){
+		SYM_COUR.CODE=READ_TOKEN;
+		strcpy(SYM_COUR.nom,"READ_TOKEN");
 	}else if(!strcmp(mot,"cat")){
 		SYM_COUR.CODE=WRITE_TOKEN;
 		strcpy(SYM_COUR.nom,"WRITE_TOKEN");
