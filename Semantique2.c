@@ -47,6 +47,7 @@ TSym_Cour SYM_PREC_ID;
 TSym_Cour SYM;
 boolean SAME_TYPE_EXPR = true;
 
+char nom_symbol2[30];
 int indice = 0;
 
 
@@ -321,7 +322,7 @@ void INST(){
 void AFFEC1(){
 	//CHERCHER_SYM(SYM_COUR.nom,OAFFEC);
 	Test_Symbole(ID_TOKEN,ID_ERR);
-	printf("%s\n",nom_symbol);
+	strcpy(nom_symbol2,nom_symbol);
 	if(SYM_COUR.CODE==AFFOP1_TOKEN){
 		CHERCHER_SYM(SYM_PREC_ID.nom,OAFFEC);
 		Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
@@ -544,12 +545,18 @@ void FACT(){
 	}
 	switch(SYM_COUR.CODE){
 		case ID_TOKEN:
-			printf("testddddd\n");
 			Test_Symbole(ID_TOKEN,ID_ERR);
-			printf("%s",nom_symbol);
-			CHERCHER_SYM(nom_symbol,OAFFEC);
+			printf("%s\n",nom_symbol);
+			printf("%s\n",nom_symbol2);
+			int r = CHERCHER_SYM(nom_symbol,OAFFEC);
+			if (r != -1)
+			{
+				AJOUTER_SYM(nom_symbol2,r);
+			}
+			
 			break;
 		case INT_TOKEN:
+			printf("test int : %s\n",SYM_COUR.nom);
 			type_symbole = TINT;
 			Test_Symbole(INT_TOKEN,NUM_ERR);
 			AJOUTER_SYM(nom_symbol,type_symbole);
@@ -664,20 +671,20 @@ int CHERCHER_SYM(char* nom,OPTION option){
 	for(int i=0;i<indice;i++){
 		if(!strcmp(Table_Symbole[i].nom,nom)){
 			TYPE_SYM_PREC_ID = Table_Symbole[i].typeSymbole;
-			return i+1;
+			return Table_Symbole[i].typeSymbole;
 		}
 	}
 	if(option!=OALL){
 		printf(" '%s' UNDECLARED at ligne %d\n",nom,numLigne);
 		exit(0);
 	}
-	return 0;
+	return -1;
 }
 
 void AJOUTER_SYM(char* nom,TSYM type){
 
 	int index = CHERCHER_SYM(nom,OALL);
-	if(index){
+	if(index != -1){
 		Table_Symbole[index-1].typeSymbole = type;
 	}else{
 		strcpy(Table_Symbole[indice].nom, nom);
