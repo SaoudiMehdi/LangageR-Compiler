@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "AnalyseurLexicalv1.c"
+#include "AnalyseurLexicalv2.c"
 #define NbrIDF 100
 #define TAILLECODE 100
 
