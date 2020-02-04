@@ -334,7 +334,7 @@ void AFFEC1(){
 			if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
 			else{
 				Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
-				AJOUTER_SYM(nom_symbol,TCHR);
+				AJOUTER_SYM(nom_symbol2,TCHR);
 			}
 		}
 		else LIRE();
@@ -681,11 +681,22 @@ int CHERCHER_SYM(char* nom,OPTION option){
 	return -1;
 }
 
+int INDEX_SYM(char* nom){
+	for(int i=0;i<indice;i++){
+		if(!strcmp(Table_Symbole[i].nom,nom)){
+			TYPE_SYM_PREC_ID = Table_Symbole[i].typeSymbole;
+			return i;
+		}
+	}
+	return -1;
+}
+
 void AJOUTER_SYM(char* nom,TSYM type){
 
-	int index = CHERCHER_SYM(nom,OALL);
+	int index = INDEX_SYM(nom);
 	if(index != -1){
-		Table_Symbole[index-1].typeSymbole = type;
+		printf("%d\n",type);
+		Table_Symbole[index].typeSymbole = type;
 	}else{
 		strcpy(Table_Symbole[indice].nom, nom);
 		Table_Symbole[indice].typeSymbole = type;
