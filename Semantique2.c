@@ -555,17 +555,18 @@ void FACT(){
 			}
 			
 			break;
+		
 		case INT_TOKEN:
 			printf("test int : %s\n",SYM_COUR.nom);
 			type_symbole = TINT;
 			Test_Symbole(INT_TOKEN,NUM_ERR);
-			AJOUTER_SYM(nom_symbol,type_symbole);
+			AJOUTER_SYM(nom_symbol2,(CHERCHER_SYM(nom_symbol2,OALL)==TFLT)? TFLT : TINT);
 			//TYPE_SYM_PREC_ID = TINT;
 			break;
 		case FLOAT_TOKEN:
 			type_symbole = TFLT;
 			Test_Symbole(FLOAT_TOKEN,NUM_ERR);
-			AJOUTER_SYM(nom_symbol,type_symbole);
+			AJOUTER_SYM(nom_symbol2,type_symbole);
 			//TYPE_SYM_PREC_ID = TFLT;
 			break;
 		case PO_TOKEN:
