@@ -573,7 +573,11 @@ void FACT(){
 			int r = CHERCHER_SYM(nom_symbol,OAFFEC);
 			if (r != -1)
 			{
-				AJOUTER_SYM(nom_symbol2,r);
+				if (CHERCHER_SYM(nom_symbol2,OALL)==TFLT)
+				{
+					AJOUTER_SYM(nom_symbol2,TFLT);
+				}
+				else AJOUTER_SYM(nom_symbol2,r);
 			}
 			
 			break;
