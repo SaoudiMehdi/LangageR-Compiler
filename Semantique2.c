@@ -60,6 +60,7 @@ void INSTS();
 void INST();
 void AFFEC1();
 void AFFEC2();
+void AFFEC3();
 void SI();
 void TANTQUE();
 void ECRIRE();
@@ -275,6 +276,9 @@ void INST(){
 		case FLOAT_TOKEN:
 			AFFEC2();
 			break;
+		case CHAINE_TOKEN:
+			AFFEC3();
+			break;
 		case PO_TOKEN:
 			AFFEC2();
 			break;
@@ -324,10 +328,10 @@ void AFFEC1(){
 	Test_Symbole(ID_TOKEN,ID_ERR);
 	strcpy(nom_symbol2,nom_symbol);
 	if(SYM_COUR.CODE==AFFOP1_TOKEN){
-		CHERCHER_SYM(SYM_PREC_ID.nom,OAFFEC);
+		int t = CHERCHER_SYM(nom_symbol2,OAFFEC);
 		Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
 		Test_Symbole(ID_TOKEN,ID_ERR);
-		AJOUTER_SYM(SYM_PREC_ID.nom,TYPE_SYM_PREC_ID);
+		AJOUTER_SYM(nom_symbol,t);
 	}else if(SYM_COUR.CODE==AFFOP_TOKEN){
 		Test_Symbole(AFFOP_TOKEN,AFF_ERR);
 		if(SYM_COUR.CODE!=READ_TOKEN){
@@ -343,20 +347,38 @@ void AFFEC1(){
 		if(SYM_COUR.CODE!=READ_TOKEN){
 			if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
 			else{
-				Sym_Suiv();
+				Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
+				AJOUTER_SYM(nom_symbol2,TCHR);
 			}
 		}
 		else LIRE();
 	}else{
+		int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
 		ECRIRE2();
+		int t2 = CHERCHER_SYM(nom_symbol2,OAFFEC);
+		Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
+		Test_Symbole(ID_TOKEN,ID_ERR);
+		AJOUTER_SYM(nom_symbol,t2);
+		AJOUTER_SYM(nom_symbol2,t1);
+
 	}
 	
 }
 
 void AFFEC2(){
+	int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
 	EXPR();
 	Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
 	Test_Symbole(ID_TOKEN,ID_ERR);
+	AJOUTER_SYM(nom_symbol,type_symbole);
+	AJOUTER_SYM(nom_symbol2,t1);
+}
+
+void AFFEC3(){
+	Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
+	Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
+	Test_Symbole(ID_TOKEN,ID_ERR);
+	AJOUTER_SYM(nom_symbol,TCHR);
 }
 
 void SI(){
@@ -558,7 +580,7 @@ void FACT(){
 		
 		case INT_TOKEN:
 			printf("test int : %s\n",SYM_COUR.nom);
-			type_symbole = TINT;
+			if(type_symbole != TFLT) type_symbole = TINT;
 			Test_Symbole(INT_TOKEN,NUM_ERR);
 			AJOUTER_SYM(nom_symbol2,(CHERCHER_SYM(nom_symbol2,OALL)==TFLT)? TFLT : TINT);
 			//TYPE_SYM_PREC_ID = TINT;
@@ -621,7 +643,7 @@ void MAX(){
 
 void ECRIRE2(){
 	int operationSYM = 0;
-	while(SYM_COUR.CODE!=ENTRER_TOKEN && SYM_COUR.CODE!=PV_TOKEN){
+	while(SYM_COUR.CODE!=ENTRER_TOKEN && SYM_COUR.CODE!=PV_TOKEN && SYM_COUR.CODE != AFFOP1_TOKEN){
 	switch(SYM_COUR.CODE){
 		case PLUS_TOKEN:
 			operationSYM++;
@@ -648,13 +670,21 @@ void ECRIRE2(){
 			Sym_Suiv();
 			break;
 		case ID_TOKEN:
+			CHERCHER_SYM(nom_symbol,OAFFEC);
 			operationSYM--;
 			Sym_Suiv();
 			break;
-		case INT_TOKEN: 
-		case FLOAT_TOKEN:
+		case INT_TOKEN:
 			operationSYM--;
 			Sym_Suiv();
+			break;
+		case FLOAT_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TFLT);
+			operationSYM--;
+			Sym_Suiv();
+			break;
+		case PO_TOKEN:
+			EXPR();
 			break;
 		case ENTRER_TOKEN:
 			break;
@@ -665,7 +695,7 @@ void ECRIRE2(){
 			break;
 	}
 	}
-	if(operationSYM>=1) ERREUR(WRITE_ERR);
+	if(operationSYM>=1 && operationSYM<0) ERREUR(WRITE_ERR);
 }
 
 int CHERCHER_SYM(char* nom,OPTION option){

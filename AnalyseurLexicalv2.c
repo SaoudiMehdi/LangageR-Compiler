@@ -22,6 +22,7 @@ TSym_Cour SYM_COUR;
 char Car_Cour;
 int numLigne = 1;
 FILE* file;
+int FLOAT = 0;
 char nom_symbol[30];
 
 //Déclaration Prototype des méthodes
@@ -103,7 +104,10 @@ void Sym_Suiv(){
 				SYM_COUR.CODE=PT_TOKEN;
 				strcpy(SYM_COUR.nom,"PT_TOKEN");
 				Lire_Car();
-				if(Car_Cour>='0' && Car_Cour<='9') Lire_Nombre();
+				if(Car_Cour>='0' && Car_Cour<='9'){
+					FLOAT++;
+					Lire_Nombre();
+				}
 				break;
 			case ',': 
 				SYM_COUR.CODE=VIR_TOKEN;
@@ -316,7 +320,6 @@ void Lire_Mot(){
 } 
 
 void Lire_Nombre(){
-	int FLOAT = 0;
 	while((Car_Cour>='0' && Car_Cour<='9') || Car_Cour=='.'){
 		if(Car_Cour=='.') FLOAT++;
 		if(FLOAT>1) break;
@@ -336,6 +339,7 @@ void Lire_Nombre(){
 		SYM_COUR.CODE = ERREUR_TOKEN;
 		strcpy(SYM_COUR.nom,"ERREUR_TOKEN");
 	}
+	FLOAT = 0;
 }
 
 void Lire_Commentaire(){
