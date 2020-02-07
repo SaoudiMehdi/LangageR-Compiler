@@ -1,0 +1,79 @@
+.btn-1 {
+	padding: 5px;
+	border-radius: 20px;
+	color: white !important;
+	margin: 20px 10px;
+	text-decoration: none !important;
+    font-size: 15px;
+    background-color: #9a0a0a;
+    height: 25px;
+    width: 100px;
+    text-align: center;
+    line-height: 18px;
+    float: right;
+    right: 0;
+    position: absolute;
+}
+
+.btn-1:hover {
+    background-color: #000;
+    -webkit-transition: background 0.3s ease-in-out;
+  	-moz-transition: background 0.3s ease-in-out;
+  	transition: background-color 0.3s ease-in-out;
+}
+
+select[name="statut_decision"] {
+	border-radius: 10px; 
+	border-radius: 20px;
+	height: 28px;
+	text-align: center;
+	width: 12%;
+	margin-left: 15px;
+}
+
+input[name="id_problem"] {
+	border-radius: 20px;
+	height: 28px;
+	width: 12%;
+	margin: 0;
+	margin-left: 15px;
+	text-align: center;
+	float: none;
+}
+
+form {
+	margin-bottom: 20px;
+	height: 40px;
+	margin: 0 auto 20px auto;
+}
+
+
+#apply {
+    color: #fff;
+    font-size: 15px;
+    width: 12%;
+    height: 28px;
+	padding-bottom: 4px;
+    background-color: #9a0a0a;
+    border-style: none;
+    border-radius: 20px;
+    margin-left: 15px;
+  	margin-top: 0;
+  	float: none;
+}
+
+#apply:hover {
+	background-color: #000;
+}
+
+img {
+	width: 27%;
+	margin-top: -8%;
+}
+
+img:hover {
+	width: 29%;
+	margin-top: -10%;
+	cursor: pointer;
+}
+
