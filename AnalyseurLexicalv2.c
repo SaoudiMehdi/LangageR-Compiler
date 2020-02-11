@@ -355,7 +355,7 @@ void Lire_Chaine(){
 	strcpy(SYM_COUR.nom,"CHAINE_TOKEN");
 	do{
 		Lire_Car();
-	}while(Car_Cour!='"');
+	}while(Car_Cour!='"' && Car_Cour!=EOF);
 	Lire_Car();
 }
 

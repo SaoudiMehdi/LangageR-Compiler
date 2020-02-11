@@ -93,9 +93,9 @@ int main(){
 	INSTS();
 	
 	if(SYM_COUR.CODE==EOF_TOKEN)
-		printf("BRAVO: le programme est correcte!!! test\n");
+		printf("BRAVO: le programme est correcte!!!\n");
 	else
-		printf("PAS BRAVO: fin de programme erronee!!!! test\n");
+		printf("PAS BRAVO: fin de programme erronee!!!!\n");
 	return true;
 }
 
@@ -336,24 +336,44 @@ void AFFEC1(){
 		AJOUTER_SYM(nom_symbol,t);
 	}else if(SYM_COUR.CODE==AFFOP_TOKEN){
 		Test_Symbole(AFFOP_TOKEN,AFF_ERR);
-		if(SYM_COUR.CODE!=READ_TOKEN){
-			if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
-			else{
-				Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
-				AJOUTER_SYM(nom_symbol2,TCHR);
-			}
+		switch(SYM_COUR.CODE){
+			case READ_TOKEN:
+				LIRE();
+				break;
+			case MIN_TOKEN:
+				MIN();
+				break;
+			case MAX_TOKEN:
+				MAX();
+				break;
+			default:
+				if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
+				else{
+					Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
+					AJOUTER_SYM(nom_symbol2,TCHR);
+				}
+				break;
 		}
-		else LIRE();
 	}else if(SYM_COUR.CODE==AFFOP2_TOKEN){
 		Test_Symbole(AFFOP2_TOKEN,AFF_ERR);
-		if(SYM_COUR.CODE!=READ_TOKEN){
-			if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
-			else{
-				Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
-				AJOUTER_SYM(nom_symbol2,TCHR);
-			}
+		switch(SYM_COUR.CODE){
+			case READ_TOKEN:
+				LIRE();
+				break;
+			case MIN_TOKEN:
+				MIN();
+				break;
+			case MAX_TOKEN:
+				MAX();
+				break;
+			default:
+				if(SYM_COUR.CODE!=CHAINE_TOKEN) EXPR();
+				else{
+					Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
+					AJOUTER_SYM(nom_symbol2,TCHR);
+				}
+				break;
 		}
-		else LIRE();
 	}else{
 		int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
 		ECRIRE2();
@@ -368,12 +388,13 @@ void AFFEC1(){
 }
 
 void AFFEC2(){
-	int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
+	//int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
 	EXPR();
+	printf("%d 2222222222222222222222229999999999999999999999",TYPE_SYM_PREC);
 	Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
 	Test_Symbole(ID_TOKEN,ID_ERR);
-	AJOUTER_SYM(nom_symbol,type_symbole);
-	AJOUTER_SYM(nom_symbol2,t1);
+	AJOUTER_SYM(nom_symbol,TYPE_SYM_PREC);
+	//AJOUTER_SYM(nom_symbol2,t1);
 }
 
 void AFFEC3(){
@@ -551,7 +572,7 @@ void EXPR(){
 		Sym_Suiv();
 		TERM();
 	}
-	TYPE_SYM_PREC = -1;
+	//TYPE_SYM_PREC = -1;
 }
 
 void TERM(){
@@ -581,6 +602,7 @@ void FACT(){
 				if (t == TFLT)
 				{
 					AJOUTER_SYM(nom_symbol2,TFLT);
+					TYPE_SYM_PREC = TFLT;
 				}
 				else if(oP == true && t!=2) AJOUTER_SYM(nom_symbol2,r);
 				else{
@@ -633,11 +655,50 @@ void pvTest(){
 void MIN(){
 	Sym_Suiv();
 	Test_Symbole(PO_TOKEN,PO_ERR);
-	if(SYM_COUR.CODE == INT_TOKEN || SYM_COUR.CODE == FLOAT_TOKEN || SYM_COUR.CODE == ID_TOKEN) Sym_Suiv();
-	else ERREUR(MIN_ERR);
+	switch(SYM_COUR.CODE){
+		case INT_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TINT);
+			Sym_Suiv();
+			break;
+		case FLOAT_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TFLT);
+			Sym_Suiv();
+			break;
+		case ID_TOKEN:
+			AJOUTER_SYM(nom_symbol2,CHERCHER_SYM(nom_symbol,OAFFEC));
+			Sym_Suiv();
+			break;
+		case CHAINE_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TCHR);
+			Sym_Suiv();
+			break;
+		default:
+			ERREUR(MIN_ERR);
+			break;
+	}
 	Test_Symbole(VIR_TOKEN,VIR_ERR);
-	if(SYM_COUR.CODE == INT_TOKEN || SYM_COUR.CODE == FLOAT_TOKEN || SYM_COUR.CODE == ID_TOKEN) Sym_Suiv();
-	else ERREUR(MIN_ERR);
+	int typePrec = CHERCHER_SYM(nom_symbol2,OAFFEC);
+	switch(SYM_COUR.CODE){
+		case INT_TOKEN:
+			if(typePrec != 2) AJOUTER_SYM(nom_symbol2,TINT);
+			Sym_Suiv();
+			break;
+		case FLOAT_TOKEN:
+			if(typePrec == 1)AJOUTER_SYM(nom_symbol2,TFLT);
+			Sym_Suiv();
+			break;
+		case ID_TOKEN:
+			if(typePrec != 2 && (CHERCHER_SYM(nom_symbol,OAFFEC) == 2 || CHERCHER_SYM(nom_symbol,OAFFEC) ==1) ) AJOUTER_SYM(nom_symbol2,CHERCHER_SYM(nom_symbol,OAFFEC));
+			Sym_Suiv();
+			break;
+		case CHAINE_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TCHR);
+			Sym_Suiv();
+			break;
+		default:
+			ERREUR(MIN_ERR);
+			break;
+	}
 	Test_Symbole(PF_TOKEN,PF_ERR);
 }
 
@@ -645,11 +706,50 @@ void MIN(){
 void MAX(){
 	Sym_Suiv();
 	Test_Symbole(PO_TOKEN,PO_ERR);
-	if(SYM_COUR.CODE == INT_TOKEN || SYM_COUR.CODE == FLOAT_TOKEN || SYM_COUR.CODE == ID_TOKEN) Sym_Suiv();
-	else ERREUR(MIN_ERR);
+	switch(SYM_COUR.CODE){
+		case INT_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TINT);
+			Sym_Suiv();
+			break;
+		case FLOAT_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TFLT);
+			Sym_Suiv();
+			break;
+		case ID_TOKEN:
+			AJOUTER_SYM(nom_symbol2,CHERCHER_SYM(nom_symbol,OAFFEC));
+			Sym_Suiv();
+			break;
+		case CHAINE_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TCHR);
+			Sym_Suiv();
+			break;
+		default:
+			ERREUR(MAX_ERR);
+			break;
+	}
 	Test_Symbole(VIR_TOKEN,VIR_ERR);
-	if(SYM_COUR.CODE == INT_TOKEN || SYM_COUR.CODE == FLOAT_TOKEN || SYM_COUR.CODE == ID_TOKEN) Sym_Suiv();
-	else ERREUR(MIN_ERR);
+	int typePrec = CHERCHER_SYM(nom_symbol2,OAFFEC);
+	switch(SYM_COUR.CODE){
+		case INT_TOKEN:
+			if(typePrec != 2) AJOUTER_SYM(nom_symbol2,TINT);
+			Sym_Suiv();
+			break;
+		case FLOAT_TOKEN:
+			if(typePrec == 1)AJOUTER_SYM(nom_symbol2,TFLT);
+			Sym_Suiv();
+			break;
+		case ID_TOKEN:
+			if(typePrec != 2 && (CHERCHER_SYM(nom_symbol,OAFFEC) == 2 || CHERCHER_SYM(nom_symbol,OAFFEC) ==1) ) AJOUTER_SYM(nom_symbol2,CHERCHER_SYM(nom_symbol,OAFFEC));
+			Sym_Suiv();
+			break;
+		case CHAINE_TOKEN:
+			AJOUTER_SYM(nom_symbol2,TCHR);
+			Sym_Suiv();
+			break;
+		default:
+			ERREUR(MAX_ERR);
+			break;
+	}
 	Test_Symbole(PF_TOKEN,PF_ERR);
 }
 
