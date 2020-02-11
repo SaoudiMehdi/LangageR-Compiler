@@ -3,6 +3,7 @@
 
 
 #include "analyseur_lexical.h"
+#include "table_symboles.h"
 
 //declaration 
 
@@ -33,8 +34,6 @@ void MAX();
 void PREMIER_SYM();
 void pvTest();
 void ECRIRE2();
-int CHERCHER_SYM(char* nom,OPTION option);
-int INDEX_SYM(char* nom);
-void AJOUTER_SYM(char* nom,TSYM type);
+
 
 #endif
