@@ -46,6 +46,7 @@ TSym_Cour SYM_PREC;
 TSym_Cour SYM_PREC_ID;
 TSym_Cour SYM;
 boolean SAME_TYPE_EXPR = true;
+boolean oP = false;
 
 char nom_symbol2[30];
 int indice = 0;
@@ -77,6 +78,7 @@ void MAX();
 void PREMIER_SYM();
 void pvTest();
 void ECRIRE2();
+void compatibiliteError();
 int CHERCHER_SYM(char* nom,OPTION option);
 void AJOUTER_SYM(char* nom,TSYM type);
 
@@ -530,7 +532,7 @@ void ECRIRE(){
 void LIRE(){
 	Test_Symbole(READ_TOKEN,READ_ERR);
 	Test_Symbole(PO_TOKEN,PO_ERR);
-	Test_Symbole(PF_TOKEN,ID_ERR);
+	Test_Symbole(PF_TOKEN,PF_ERR);
 	/*CHERCHER_SYM(SYM_PREC.nom,OLIRE);
 	while(SYM_COUR.CODE==VIR_TOKEN){
 		Sym_Suiv();
@@ -545,6 +547,7 @@ void EXPR(){
 	TERM();
 	TYPE_SYM_PREC = TYPE_SYM_PREC_ID;
 	while(SYM_COUR.CODE==PLUS_TOKEN||SYM_COUR.CODE==MOINS_TOKEN){
+		if(oP == false) oP = true;
 		Sym_Suiv();
 		TERM();
 	}
@@ -555,29 +558,34 @@ void TERM(){
 	FACT();
 	TYPE_SYM_PREC = TYPE_SYM_PREC_ID;
 	while(SYM_COUR.CODE==MULT_TOKEN||SYM_COUR.CODE==DIV_TOKEN || SYM_COUR.CODE==DIVENT_TOKEN || SYM_COUR.CODE==RES_TOKEN){
+		if(oP == false) oP = true;
 		Sym_Suiv();
 		FACT();
 	}
 }
 
 void FACT(){
-	if(TYPE_SYM_PREC == TCHR && TYPE_SYM_PREC!= TYPE_SYM_PREC_ID){
-		printf(" '%s' ERROR COMPATIBILITE at ligne %d",SYM_COUR.nom,numLigne);
-		exit(0);
+	if(TYPE_SYM_PREC == TCHR && TYPE_SYM_PREC != TYPE_SYM_PREC_ID){
+		compatibiliteError();
 	}
 	switch(SYM_COUR.CODE){
 		case ID_TOKEN:
 			Test_Symbole(ID_TOKEN,ID_ERR);
 			printf("%s\n",nom_symbol);
 			printf("%s\n",nom_symbol2);
+			
 			int r = CHERCHER_SYM(nom_symbol,OAFFEC);
 			if (r != -1)
 			{
-				if (CHERCHER_SYM(nom_symbol2,OALL)==TFLT)
+				int t = CHERCHER_SYM(nom_symbol,OALL);
+				if (t == TFLT)
 				{
 					AJOUTER_SYM(nom_symbol2,TFLT);
 				}
-				else AJOUTER_SYM(nom_symbol2,r);
+				else if(oP == true && t!=2) AJOUTER_SYM(nom_symbol2,r);
+				else{
+					compatibiliteError();
+				}
 			}
 			
 			break;
@@ -742,5 +750,10 @@ void AJOUTER_SYM(char* nom,TSYM type){
 		printf("symbol: %s type: %d\n",Table_Symbole[i].nom,Table_Symbole[i].typeSymbole);
 	}
 	
+}
+
+void compatibiliteError(){
+		printf(" '%s' ERROR COMPATIBILITE at ligne %d",nom_symbol,numLigne);
+		exit(0);
 }
 
