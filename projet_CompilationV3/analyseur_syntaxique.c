@@ -1,15 +1,16 @@
 #include "analyseur_syntaxique.h"
 #include "errors.h"
 
-FILE *FICH_SORTIE;
-FICH_SORTIE = fopen("C:\\fichierSortie.op", "w+" );
+//FILE *FICH_SORTIE;
+//FICH_SORTIE = fopen("C:\\fichierSortie.op", "w+" );
+
 void SavePCodeToFile() {
 	int i;
 	for (i=0; i<=PC; i++) {
 		SaveInstToFile(PCODE[i]);
 	}
 }
-Fclose(FICH_SORTIE);
+//Fclose(FICH_SORTIE);
 
 void Test_Symbole(CODE_LEX code,CODE_ERR error){
 	if(SYM_COUR.CODE==code){
@@ -29,6 +30,7 @@ void INSTS(){
 		INST();
 	}
 	GENERER1(HLT);
+	SavePCodeToFile();
 }
 
 
@@ -419,6 +421,8 @@ void FACT(){
 }
 
 void PREMIER_SYM(){
+	PC = -1;
+	OFFSET = -1;
     numLigne = 1;
     FLOAT = 0;
     accPresence = false;
@@ -611,25 +615,25 @@ void GENERER2(MNEMONIQUES M, int val) {
 	PCODE[PC].SUITE = val;
 }
 
-void SaveInstToFile(INSTRUCTION INST, int i)
+void SaveInstToFile(INSTRUCTION INST)
 	{
 	switch( INST.MNE){
-		case LDA: fprintf(FICH_SORTIE, "%s \t %d \n", "LDA", INST.SUITE); break;
-		case LDI: fprintf(FICH_SORTIE, "%s \t %d \n", "LDI", INST.SUITE); break;
-		case INT: fprintf(FICH_SORTIE, "%s \t %d \n", "INT", INST.SUITE); break;
-		case BZE: fprintf(FICH_SORTIE, "%s \t %d \n", "BZE", INST.SUITE); break;
-		case BRN: fprintf(FICH_SORTIE, "%s \t %d \n", "BRN", INST.SUITE); break;
-		case LDV: fprintf(FICH_SORTIE, "%s \n", "LDV"); break;
-		case ADD: fprintf(FICH_SORTIE, "%s \n", "ADD"); break;
-		case SUB: fprintf(FICH_SORTIE, "%s \n", "SUB"); break;
-		case MUL: fprintf(FICH_SORTIE, "%s \n", "MUL"); break;
-		case DIV: fprintf(FICH_SORTIE, "%s \n", "DIV"); break;
-		case LEQ: fprintf(FICH_SORTIE, "%s \n", "LEQ"); break;
-		case GEQ: fprintf(FICH_SORTIE, "%s \n", "GEQ"); break;
-		case GTR: fprintf(FICH_SORTIE, "%s \n", "GTR"); break;
-		case HLT: fprintf(FICH_SORTIE, "%s \n", "HLT"); break;
-		case STO: fprintf(FICH_SORTIE, "%s \n", "STO"); break;
-		case INN: fprintf(FICH_SORTIE, "%s \n", "INN"); break;
-		case PRN: fprintf(FICH_SORTIE, "%s \n", "PRN"); break;
+		case LDA: printf("%s \t %d \n", "LDA", INST.SUITE); break;
+		case LDI: printf("%s \t %d \n", "LDI", INST.SUITE); break;
+		case INT: printf("%s \t %d \n", "INT", INST.SUITE); break;
+		case BZE: printf("%s \t %d \n", "BZE", INST.SUITE); break;
+		case BRN: printf("%s \t %d \n", "BRN", INST.SUITE); break;
+		case LDV: printf("%s \n", "LDV"); break;
+		case ADD: printf("%s \n", "ADD"); break;
+		case SUB: printf("%s \n", "SUB"); break;
+		case MUL: printf("%s \n", "MUL"); break;
+		case DIV: printf("%s \n", "DIV"); break;
+		case LEQ: printf("%s \n", "LEQ"); break;
+		case GEQ: printf("%s \n", "GEQ"); break;
+		case GTR: printf("%s \n", "GTR"); break;
+		case HLT: printf("%s \n", "HLT"); break;
+		case STO: printf("%s \n", "STO"); break;
+		case INN: printf("%s \n", "INN"); break;
+		case PRN: printf("%s \n", "PRN"); break;
 	}
 }

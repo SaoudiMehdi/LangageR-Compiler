@@ -36,7 +36,7 @@ void pvTest();
 void ECRIRE2();
 void GENERER1(MNEMONIQUES M);
 void GENERER2(MNEMONIQUES M, int val);
-void SaveInstToFile(INSTRUCTION INST, int i);
+void SaveInstToFile(INSTRUCTION INST);
 void SavePCodeToFile();
 
 #endif

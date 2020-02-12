@@ -78,6 +78,6 @@ boolean oP;
 
 char nom_symbol2[30];
 int indice ;
-int PC = -1;
-int OFFSET = -1;
+int PC;
+int OFFSET;
 #endif
