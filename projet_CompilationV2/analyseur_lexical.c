@@ -1,61 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include "analyseur_lexical.h"
 
-
-typedef enum{
-	IF_TOKEN,ELSE_TOKEN,WHILE_TOKEN,REPEAT_TOKEN,FOR_TOKEN,WRITE_TOKEN,CAT_TOKEN,MIN_TOKEN,MAX_TOKEN,IN_TOKEN,BREAK_TOKEN,IS_TOKEN,AS_TOKEN,
-	CLS_TOKEN,PV_TOKEN,PT_TOKEN,PLUS_TOKEN,
-	MOINS_TOKEN,MULT_TOKEN,DIV_TOKEN,VIR_TOKEN,AFFOP_TOKEN,AFFOP1_TOKEN,AFFOP2_TOKEN,
-	INF_TOKEN,INFG_TOKEN,SUP_TOKEN,SUPG_TOKEN,EGAL_TOKEN,DIFF_TOKEN,
-	PO_TOKEN,PF_TOKEN,ID_TOKEN,INT_TOKEN,FLOAT_TOKEN,ERREUR_TOKEN,COMM_TOKEN,AND_TOKEN,OR_TOKEN,NOT_TOKEN,RES_TOKEN,DIVENT_TOKEN,POW_TOKEN,ACCO_TOKEN,ACCF_TOKEN,SEQ_TOKEN,ENTRER_TOKEN,CHAINE_TOKEN,READ_TOKEN,EOF_TOKEN
-}CODE_LEX;
-
-
-typedef struct {
-	CODE_LEX CODE;
-	char nom[20];
-}TSym_Cour;
-
-//Déclaration Variable Globale
-TSym_Cour SYM_COUR;
-char Car_Cour;
-int numLigne = 1;
-FILE* file;
-
-//Déclaration Prototype des méthodes
-void Lire_Car();
-void Lire_Mot();
-void Lire_Nombre();
-void Lire_Commentaire();
-void Lire_Chaine();
-void Sym_Suiv();
-void Ouvrir_Fichier(char* fileName);
-void AfficherToken(TSym_Cour sym);
-int AlphaNum(char Car_Cour);
-int CaractereVide(char Car_Cour);
-int CaractereSigne(char Car_Cour);
-
-//Fonction main
-/*
-int main(){
-	Ouvrir_Fichier("test1.R");
-	if (file == NULL)
-    {
-        printf("Cannot open file \n");
-        exit(0);
-    }
-	Lire_Car();
-	while(Car_Cour != EOF ){
-		Sym_Suiv();
-		AfficherToken(SYM_COUR);
-	}
-	//pour afficher la fin du fichier
-	Sym_Suiv();
-	AfficherToken(SYM_COUR);
-	return 1;
-}
-*/
 void Sym_Suiv(){
 	while(CaractereVide(Car_Cour)){
 		Lire_Car();
@@ -102,7 +46,10 @@ void Sym_Suiv(){
 				SYM_COUR.CODE=PT_TOKEN;
 				strcpy(SYM_COUR.nom,"PT_TOKEN");
 				Lire_Car();
-				if(Car_Cour>='0' && Car_Cour<='9') Lire_Nombre();
+				if(Car_Cour>='0' && Car_Cour<='9'){
+					FLOAT++;
+					Lire_Nombre();
+				}
 				break;
 			case ',': 
 				SYM_COUR.CODE=VIR_TOKEN;
@@ -309,12 +256,12 @@ void Lire_Mot(){
 	}else{
 		SYM_COUR.CODE=ID_TOKEN;
 		strcpy(SYM_COUR.nom,"ID_TOKEN");
+		strcpy(nom_symbol,mot);
 	}
 	memset(mot,'\0',1024);
 } 
 
 void Lire_Nombre(){
-	int FLOAT = 0;
 	while((Car_Cour>='0' && Car_Cour<='9') || Car_Cour=='.'){
 		if(Car_Cour=='.') FLOAT++;
 		if(FLOAT>1) break;
@@ -334,6 +281,7 @@ void Lire_Nombre(){
 		SYM_COUR.CODE = ERREUR_TOKEN;
 		strcpy(SYM_COUR.nom,"ERREUR_TOKEN");
 	}
+	FLOAT = 0;
 }
 
 void Lire_Commentaire(){
@@ -349,7 +297,7 @@ void Lire_Chaine(){
 	strcpy(SYM_COUR.nom,"CHAINE_TOKEN");
 	do{
 		Lire_Car();
-	}while(Car_Cour!='"');
+	}while(Car_Cour!='"' && Car_Cour!=EOF);
 	Lire_Car();
 }
 

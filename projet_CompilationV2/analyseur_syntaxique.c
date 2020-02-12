@@ -1,105 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include "AnalyseurLexicalv2.c"
-#define NbrIDF 100
-#define TAILLECODE 100
-
-typedef enum{
-	IF_ERR,ELSE_ERR,WHILE_ERR,REPEAT_ERR,FOR_ERR,WRITE_ERR,CAT_ERR,MIN_ERR,MAX_ERR,IN_ERR,BREAK_ERR,IS_ERR,AS_ERR,
-	CLS_ERR,PV_ERR,PT_ERR,PLUS_ERR,
-	MOINS_ERR,MULT_ERR,DIV_ERR,VIR_ERR,AFF_ERR,
-	INF_ERR,INFG_ERR,SUP_ERR,SUPG_ERR,EGAL_ERR,DIFF_ERR,
-	PO_ERR,PF_ERR,ID_ERR,NUM_ERR,ERREUR_ERR,COMM_ERR,AND_ERR,OR_ERR,NOT_ERR,RES_ERR,DIVENT_ERR,POW_ERR,ACCO_ERR,ACCF_ERR,SEQ_ERR,ENTRER_ERR,READ_ERR,CHAINE_ERR,EOF_ERR
-
-}CODE_ERR;
+#include "analyseur_syntaxique.h"
+#include "errors.h"
 
 
-typedef enum{
-	TINT,TFLT,TCHR
-}TSYM;
-
-typedef enum{
-	OAFFEC,OLIRE,OALL
-}OPTION;
-
-//structure Table des Symboles
-
-typedef struct {
-	char nom[20];
-	TSYM typeSymbole;
-}T_Table_Symbole;
-
-typedef enum{
-	false,true
-}boolean;
-
-//declaration 
-boolean accPresence = false;
-TSYM TYPE_SYM_PREC_ID;
-TSYM TYPE_SYM_PREC;
-TSYM type_symbole;
-
-T_Table_Symbole Table_Symbole[NbrIDF];
-TSym_Cour SYM_PREC;
-TSym_Cour SYM_PREC_ID;
-TSym_Cour SYM;
-boolean SAME_TYPE_EXPR = true;
-boolean oP = false;
-
-char nom_symbol2[30];
-int indice = 0;
-
-
-//prototypes des fonctions utilisées
-void Test_Symbole(CODE_LEX code,CODE_ERR error);
-void ERREUR(CODE_ERR error);
-
-//void VARS();
-void INSTS();
-void INST();
-void AFFEC1();
-void AFFEC2();
-void AFFEC3();
-void SI();
-void TANTQUE();
-void ECRIRE();
-void LIRE();
-void COND();
-void EXPR();
-void TERM();
-void FACT();
-void POUR();
-void REPETER();
-void FOR();
-void MIN();
-void MAX();
-void PREMIER_SYM();
-void pvTest();
-void ECRIRE2();
-void compatibiliteError();
-int CHERCHER_SYM(char* nom,OPTION option);
-void AJOUTER_SYM(char* nom,TSYM type);
-
-
-
-//traitement 
-
-int main(){
-	Ouvrir_Fichier("test1.R");
-	TYPE_SYM_PREC = -1;
-	PREMIER_SYM();
-	INSTS();
-	
-	if(SYM_COUR.CODE==EOF_TOKEN)
-		printf("BRAVO: le programme est correcte!!!\n");
-	else
-		printf("PAS BRAVO: fin de programme erronee!!!!\n");
-	return true;
-}
-
-//Définition des fonctions
 
 void Test_Symbole(CODE_LEX code,CODE_ERR error){
 	if(SYM_COUR.CODE==code){
@@ -109,154 +11,6 @@ void Test_Symbole(CODE_LEX code,CODE_ERR error){
 	}else{
 		ERREUR(error);
 	}
-}
-
-void ERREUR(CODE_ERR error){
-	switch(error){
-		case IF_ERR:
-			printf("IF_ERR at ligne %d\n",numLigne); 
-			break;
-		case ELSE_ERR:
-			printf("ELSE_ERR at ligne %d\n",numLigne); 
-			break;
-		case WHILE_ERR:
-			printf("WHILE_ERR at ligne %d\n",numLigne); 
-			break;
-		case REPEAT_ERR:
-			printf("REPEAT_ERR at ligne %d\n",numLigne); 
-			break;
-		case FOR_ERR:
-			printf("FOR_ERR at ligne %d\n",numLigne); 
-			break;
-		case WRITE_ERR:
-			printf("WRITE_ERR at ligne %d\n",numLigne); 
-			break;
-		case CAT_ERR:
-			printf("CAT_ERR at ligne %d\n",numLigne); 
-			break;
-		case IN_ERR:
-			printf("IN_ERR at ligne %d\n",numLigne); 
-			break;
-		case BREAK_ERR:
-			printf("BREAK_ERR at ligne %d\n",numLigne); 
-			break;
-		case IS_ERR:
-			printf("IS_ERR at ligne %d\n",numLigne); 
-			break;
-		case AS_ERR:
-			printf("AS_ERR at ligne %d\n",numLigne); 
-			break;
-		case CLS_ERR:
-			printf("CLS_ERR at ligne %d\n",numLigne); 
-			break;
-		case PV_ERR:
-			printf("PV_ERR at ligne %d\n",numLigne); 
-			break;
-		case PT_ERR:
-			printf("PT_ERR at ligne %d\n",numLigne); 
-			break;
-		case PLUS_ERR:
-			printf("PLUS_ERR at ligne %d\n",numLigne); 
-			break;
-		case MOINS_ERR:
-			printf("MOINS_ERR at ligne %d\n",numLigne); 
-			break;
-		case MULT_ERR:
-			printf("MULT_ERR at ligne %d\n",numLigne); 
-			break;
-		case DIV_ERR:
-			printf("DIV_ERR at ligne %d\n",numLigne); 
-			break;
-		case VIR_ERR:
-			printf("VIR_ERR at ligne %d\n",numLigne); 
-			break;
-		case AFF_ERR:
-			printf("AFF_ERR at ligne %d\n",numLigne); 
-			break;
-		case INF_ERR:
-			printf("INF_ERR at ligne %d\n",numLigne); 
-			break;
-		case INFG_ERR:
-			printf("INFG_ERR at ligne %d\n",numLigne); 
-			break;
-		case SUP_ERR:
-			printf("SUP_ERR at ligne %d\n",numLigne); 
-			break;
-		case SUPG_ERR:
-			printf("SUPG_ERR at ligne %d\n",numLigne); 
-			break;
-		case EGAL_ERR:
-			printf("EGAL_ERR at ligne %d\n",numLigne); 
-			break;
-		case DIFF_ERR:
-			printf("DIFF_ERR at ligne %d\n",numLigne); 
-			break;
-		case PO_ERR:
-			printf("PO_ERR at ligne %d\n",numLigne); 
-			break;
-		case PF_ERR:
-			printf("PF_ERR at ligne %d\n",numLigne); 
-			break;
-		case ID_ERR:
-			printf("ID_ERR at ligne %d\n",numLigne); 
-			break;
-		case NUM_ERR:
-			printf("NUM_ERR at ligne %d\n",numLigne); 
-			break;
-		case ERREUR_ERR:
-			printf("ERREUR_ERR at ligne %d\n",numLigne); 
-			break;
-		case COMM_ERR:
-			printf("COMM_ERR at ligne %d\n",numLigne); 
-			break;
-		case AND_ERR:
-			printf("AND_ERR at ligne %d\n",numLigne); 
-			break;
-		case OR_ERR:
-			printf("OR_ERR at ligne %d\n",numLigne); 
-			break;
-		case NOT_ERR:
-			printf("NOT_ERR at ligne %d\n",numLigne); 
-			break;
-		case RES_ERR:
-			printf("RES_ERR at ligne %d\n",numLigne); 
-			break;
-		case DIVENT_ERR:
-			printf("DIVENT_ERR at ligne %d\n",numLigne); 
-			break;
-		case POW_ERR:
-			printf("POW_ERR at ligne %d\n",numLigne); 
-			break;
-		case ACCO_ERR:
-			printf("ACCO_ERR at ligne %d\n",numLigne); 
-			break;
-		case ACCF_ERR:
-			printf("ACCF_ERR at ligne %d\n",numLigne); 
-			break;
-		case SEQ_ERR:
-			printf("SEQ_ERR at ligne %d\n",numLigne); 
-			break;
-		case ENTRER_ERR:
-			printf("ENTRER_ERR at ligne %d\n",numLigne); 
-			break;
-		case MIN_ERR:
-			printf("MIN_ERR at ligne %d\n",numLigne); 
-			break;
-		case MAX_ERR:
-			printf("MAX_ERR at ligne %d\n",numLigne); 
-			break;
-		case CHAINE_ERR:
-			printf("CHAINE_ERR at ligne %d\n",numLigne); 
-			break;
-		case EOF_ERR:
-			printf("EOF_ERR at ligne %d\n",numLigne); 
-			break;
-		default:
-			printf("ERREUR\n");
-		
-	}
-	SYM_COUR.CODE==ERREUR_TOKEN;
-	exit(0);
 }
 
 void INSTS(){
@@ -326,7 +80,6 @@ void INST(){
 }
 	
 void AFFEC1(){
-	//CHERCHER_SYM(SYM_COUR.nom,OAFFEC);
 	Test_Symbole(ID_TOKEN,ID_ERR);
 	strcpy(nom_symbol2,nom_symbol);
 	if(SYM_COUR.CODE==AFFOP1_TOKEN){
@@ -388,13 +141,12 @@ void AFFEC1(){
 }
 
 void AFFEC2(){
-	//int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
+	int t1 = CHERCHER_SYM(nom_symbol2,OAFFEC);
 	EXPR();
-	printf("%d 2222222222222222222222229999999999999999999999",TYPE_SYM_PREC);
 	Test_Symbole(AFFOP1_TOKEN,AFF_ERR);
 	Test_Symbole(ID_TOKEN,ID_ERR);
-	AJOUTER_SYM(nom_symbol,TYPE_SYM_PREC);
-	//AJOUTER_SYM(nom_symbol2,t1);
+	AJOUTER_SYM(nom_symbol,type_symbole);
+	AJOUTER_SYM(nom_symbol2,t1);
 }
 
 void AFFEC3(){
@@ -554,17 +306,12 @@ void LIRE(){
 	Test_Symbole(READ_TOKEN,READ_ERR);
 	Test_Symbole(PO_TOKEN,PO_ERR);
 	Test_Symbole(PF_TOKEN,PF_ERR);
-	/*CHERCHER_SYM(SYM_PREC.nom,OLIRE);
-	while(SYM_COUR.CODE==VIR_TOKEN){
-		Sym_Suiv();
-		Test_Symbole(ID_TOKEN,ID_ERR);
-		CHERCHER_SYM(SYM_PREC.nom,OLIRE);
-	}
-	Test_Symbole(PF_TOKEN,PF_ERR);*/
 }
 
 
+
 void EXPR(){
+	type_symbole = -1;
 	TERM();
 	TYPE_SYM_PREC = TYPE_SYM_PREC_ID;
 	while(SYM_COUR.CODE==PLUS_TOKEN||SYM_COUR.CODE==MOINS_TOKEN){
@@ -572,7 +319,7 @@ void EXPR(){
 		Sym_Suiv();
 		TERM();
 	}
-	//TYPE_SYM_PREC = -1;
+	TYPE_SYM_PREC = -1;
 }
 
 void TERM(){
@@ -617,13 +364,11 @@ void FACT(){
 			if(type_symbole != TFLT) type_symbole = TINT;
 			Test_Symbole(INT_TOKEN,NUM_ERR);
 			AJOUTER_SYM(nom_symbol2,(CHERCHER_SYM(nom_symbol2,OALL)==TFLT)? TFLT : TINT);
-			//TYPE_SYM_PREC_ID = TINT;
 			break;
 		case FLOAT_TOKEN:
 			type_symbole = TFLT;
 			Test_Symbole(FLOAT_TOKEN,NUM_ERR);
 			AJOUTER_SYM(nom_symbol2,type_symbole);
-			//TYPE_SYM_PREC_ID = TFLT;
 			break;
 		case PO_TOKEN:
 			Test_Symbole(PO_TOKEN,PO_ERR);
@@ -643,6 +388,12 @@ void FACT(){
 }
 
 void PREMIER_SYM(){
+    numLigne = 1;
+    FLOAT = 0;
+    accPresence = false;
+    SAME_TYPE_EXPR = true;
+    indice = 0;
+	oP = false;
 	Lire_Car();
 	Sym_Suiv();
 }
@@ -810,50 +561,5 @@ void ECRIRE2(){
 	if(operationSYM>=1 && operationSYM<0) ERREUR(WRITE_ERR);
 }
 
-int CHERCHER_SYM(char* nom,OPTION option){
-	for(int i=0;i<indice;i++){
-		if(!strcmp(Table_Symbole[i].nom,nom)){
-			TYPE_SYM_PREC_ID = Table_Symbole[i].typeSymbole;
-			return Table_Symbole[i].typeSymbole;
-		}
-	}
-	if(option!=OALL){
-		printf(" '%s' UNDECLARED at ligne %d\n",nom,numLigne);
-		exit(0);
-	}
-	return -1;
-}
 
-int INDEX_SYM(char* nom){
-	for(int i=0;i<indice;i++){
-		if(!strcmp(Table_Symbole[i].nom,nom)){
-			TYPE_SYM_PREC_ID = Table_Symbole[i].typeSymbole;
-			return i;
-		}
-	}
-	return -1;
-}
-
-void AJOUTER_SYM(char* nom,TSYM type){
-
-	int index = INDEX_SYM(nom);
-	if(index != -1){
-		printf("%d\n",type);
-		Table_Symbole[index].typeSymbole = type;
-	}else{
-		strcpy(Table_Symbole[indice].nom, nom);
-		Table_Symbole[indice].typeSymbole = type;
-		indice++;
-	}
-	for (int i = 0; i < indice; i++)
-	{
-		printf("symbol: %s type: %d\n",Table_Symbole[i].nom,Table_Symbole[i].typeSymbole);
-	}
-	
-}
-
-void compatibiliteError(){
-		printf(" '%s' ERROR COMPATIBILITE at ligne %d",nom_symbol,numLigne);
-		exit(0);
-}
 
