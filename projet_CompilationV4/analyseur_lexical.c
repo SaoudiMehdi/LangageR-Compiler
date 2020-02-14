@@ -366,6 +366,7 @@ void Init_Fonctions(){
 	add_fonction("c(",VIR_TOKEN,INF);
 	add_fonction("factor(",SEQ_TOKEN,2);
 	
+	
 }
 
 void add_fonction(char* nomFonction, int sep, int nombreArgument){

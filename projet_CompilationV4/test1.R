@@ -1,8 +1,8 @@
 
-####### ERREUR SEMANTIQUE
+####### Fonction class
 
 c = "ff";
 
-    
-	CECI = c + 1;
+class(c);
 
+a<-2

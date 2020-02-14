@@ -3,12 +3,12 @@
 
 
 
-void SavePCodeToFile() {
+/*void SavePCodeToFile() {
 	int i;
 	for (i=0; i<=PC; i++) {
 		SaveInstToFile(PCODE[i]);
 	}
-}
+}*/
 
 void Test_Symbole(CODE_LEX code,CODE_ERR error){
 	if(SYM_COUR.CODE==code){
@@ -27,7 +27,7 @@ void INSTS(){
 		Sym_Suiv();
 		INST();
 	}
-	//GENERER1(HLT);
+	////generer1(HLT);
 	//SavePCodeToFile();
 }
 
@@ -94,25 +94,25 @@ void AFFEC1(){
 		Test_Symbole(ID_TOKEN,ID_ERR);
 		AJOUTER_SYM(nom_symbol,t);
 	}else if(SYM_COUR.CODE==AFFOP_TOKEN){
-		AJOUTER_SYM(nom_symbol2, -1);
+		/*AJOUTER_SYM(nom_symbol2, -1);
 		if(Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE == -1){
 			Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE = ++OFFSET;
 		}
-		GENERER2(LDA, Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE);
+		////generer2(LDA, Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE);*/
 		Sym_Suiv();
 		switch(SYM_COUR.CODE){
 			case FONCTION_TOKEN:
 				FONCTION();
-				GENERER1(STO);
+				////generer1(STO);
 				break;
 			default:
 				if(SYM_COUR.CODE!=CHAINE_TOKEN) {
 					EXPR();
-					GENERER1(STO);
+					//generer1(STO);
 				} 
 				else{
 					Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
-					GENERER1(STO);
+					//generer1(STO);
 					AJOUTER_SYM(nom_symbol2,TCHR);
 				}
 				break;
@@ -122,7 +122,7 @@ void AFFEC1(){
 		if(Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE == -1){
 			Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE = ++OFFSET;
 		}
-		GENERER2(LDA, Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE);
+		//generer2(LDA, Table_Symbole[INDEX_SYM(nom_symbol2)].ADRESSE);
 		Test_Symbole(AFFOP2_TOKEN,AFF_ERR);
 		switch(SYM_COUR.CODE){
 			case READ_TOKEN:
@@ -130,16 +130,16 @@ void AFFEC1(){
 				break;
 			case FONCTION_TOKEN:
 				FONCTION();
-				GENERER1(STO);
+				//generer1(STO);
 				break;
 			default:
 				if(SYM_COUR.CODE!=CHAINE_TOKEN) {
 					EXPR();
-					GENERER1(STO);
+					//generer1(STO);
 				}
 				else{
 					Test_Symbole(CHAINE_TOKEN,CHAINE_ERR);
-					GENERER1(STO);
+					//generer1(STO);
 					AJOUTER_SYM(nom_symbol2,TCHR);
 				}
 				break;
@@ -374,6 +374,9 @@ void FACT(){
 				}else if(t == TVCT){
 					AJOUTER_SYM(nom_symbol2,TVCT);
 					TYPE_SYM_PREC = TVCT;
+				}else if(t == TCHR && oP == false){
+					AJOUTER_SYM(nom_symbol2,TCHR);
+					TYPE_SYM_PREC = TCHR;
 				}else if(oP == true){
 					if(t<2) AJOUTER_SYM(nom_symbol2,r);
 					else compatibiliteError();
@@ -474,8 +477,8 @@ void ECRIRE2(){
 	}
 	if(operationSYM>=1 || operationSYM<0) ERREUR(WRITE_ERR);
 }
-
-void GENERER1(MNEMONIQUES M) {
+/*
+void //generer1(MNEMONIQUES M) {
 	PC++;
 	if(PC == TAILLECODE) {
 		printf("Max de taille du code\n");
@@ -484,7 +487,7 @@ void GENERER1(MNEMONIQUES M) {
 	PCODE[PC].MNE = M;
 }
 
-void GENERER2(MNEMONIQUES M, int val) {
+void //generer2(MNEMONIQUES M, int val) {
 	PC++;
 	if(PC == TAILLECODE) {
 		printf("Max de taille du code\n");
@@ -516,7 +519,7 @@ void SaveInstToFile(INSTRUCTION INST)
 		case PRN: printf("%s \n", "PRN"); break;
 	}
 }
-
+*/
 
 
 void FONCTION(){
