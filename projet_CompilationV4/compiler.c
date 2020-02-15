@@ -23,6 +23,7 @@ int main(int argc, char const *argv[])
 	Sym_Suiv();
 	AfficherToken(SYM_COUR);
 	}else{
+	
     Ouvrir_Fichier("test1.R");
 	TYPE_SYM_PREC = -1;
     

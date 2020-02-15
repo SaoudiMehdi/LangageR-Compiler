@@ -1,0 +1,5 @@
+####### ERREUR SYNTHAXIQUE
+
+c = "ff";
+
+;
