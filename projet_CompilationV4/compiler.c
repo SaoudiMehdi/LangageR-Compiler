@@ -7,12 +7,8 @@
 
 int main(int argc, char const *argv[])
 {
-	const char * fichierR = argv[1];
-	char fichier[20] ;
-	strcpy(fichier,fichierR);
-	
-    if(argc == 3){
-	Ouvrir_Fichier(fichier);
+    if(argc == 2){
+	Ouvrir_Fichier("test1.R");
 	if (file == NULL)
     {
         printf("Cannot open file \n");
@@ -27,7 +23,8 @@ int main(int argc, char const *argv[])
 	Sym_Suiv();
 	AfficherToken(SYM_COUR);
 	}else{
-    Ouvrir_Fichier(fichier);
+	
+    Ouvrir_Fichier("test1.R");
 	TYPE_SYM_PREC = -1;
     
 	PREMIER_SYM();
@@ -37,7 +34,6 @@ int main(int argc, char const *argv[])
 		printf("BRAVO: le programme est correcte!!!\n");
 	else{
 	printf("PAS BRAVO: fin de programme erronee!!!!\n");}
-    }
-	return 0;
+    return 0;}
 	
 }
